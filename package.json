@@ -1,0 +1,43 @@
+{
+  "name": "@rybbit/node",
+  "version": "0.1.0",
+  "description": "Rybbit Node.js SDK",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.js",
+    "default": "./dist/index.mjs"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rybbit-io/rybbit-node.git"
+  },
+  "keywords": [
+    "rybbit",
+    "analytics",
+    "sdk",
+    "node",
+    "javascript",
+    "typescript"
+  ],
+  "author": "Rybbit",
+  "license": "AGPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/rybbit-io/rybbit-node/issues"
+  },
+  "homepage": "https://github.com/rybbit-io/rybbit-node",
+  "devDependencies": {
+    "@types/node": "^22.14.1",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.3"
+  }
+}

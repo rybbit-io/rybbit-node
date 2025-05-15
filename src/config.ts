@@ -1,0 +1,32 @@
+import { RybbitNodeConfig } from "./types";
+
+export interface ValidatedRybbitNodeConfig extends Required<Omit<RybbitNodeConfig, "defaultUserAgent">> {
+  defaultUserAgent: string | null;
+}
+
+const DEFAULT_REQUEST_TIMEOUT = 5000;
+const DEFAULT_USER_AGENT = "Rybbit Node.js SDK";
+
+export function validateAndProcessConfig(options: RybbitNodeConfig): ValidatedRybbitNodeConfig {
+  if (typeof options !== "object" || options === null) {
+    throw new Error("Invalid configuration provided to Rybbit Node SDK. Expected an object.");
+  }
+
+  if (!options.analyticsHost || options.analyticsHost.trim() === "") {
+    throw new Error("`analyticsHost` is required in Rybbit Node SDK config and must be a non-empty string.");
+  }
+  const finalAnalyticsHost = options.analyticsHost.replace(/\/$/, "");
+
+  if (options.siteId === undefined || options.siteId === null || String(options.siteId).trim() === "") {
+    throw new Error("`siteId` is required in Rybbit Node SDK config and must be a non-empty string or number.");
+  }
+  const finalSiteId = String(options.siteId);
+
+  return {
+    analyticsHost: finalAnalyticsHost,
+    siteId: finalSiteId,
+    debug: options.debug ?? false,
+    requestTimeout: Math.max(0, options.requestTimeout ?? DEFAULT_REQUEST_TIMEOUT),
+    defaultUserAgent: options.defaultUserAgent === undefined ? DEFAULT_USER_AGENT : options.defaultUserAgent,
+  };
+}
