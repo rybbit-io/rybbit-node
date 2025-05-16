@@ -7,7 +7,8 @@ type Logger = ReturnType<typeof getLogger>;
 export async function sendTrackRequest(
   payload: TrackPayload,
   config: ValidatedRybbitConfig,
-  logger: Logger
+  logger: Logger,
+  context?: EventContext,
 ): Promise<void> {
   const endpoint = `${config.analyticsHost}/track`;
   const body = JSON.stringify(payload);
@@ -16,10 +17,10 @@ export async function sendTrackRequest(
   });
 
   if (config.defaultUserAgent) {
-    if (!payload.user_agent && config.defaultUserAgent) {
+    if (!context?.userAgent && config.defaultUserAgent) {
       headers.set("User-Agent", config.defaultUserAgent);
-    } else if (payload.user_agent) {
-      headers.set("User-Agent", payload.user_agent);
+    } else if (context?.userAgent) {
+      headers.set("User-Agent", context.userAgent);
     }
   }
 
@@ -50,27 +51,17 @@ export function preparePayload(
   context?: EventContext,
   eventType: EventType = "pageview"
 ): TrackPayload {
-  const now = new Date();
-
   const payload: TrackPayload = {
     site_id: config.siteId,
     type: eventType,
     event_name: eventName,
-    timestamp: now.toISOString(),
     hostname: context?.hostname || getServerHostname(),
-    ip_address: context?.ipAddress,
-    user_agent: context?.userAgent,
-    user_id: context?.userId,
     pathname: context?.pathname,
     querystring: context?.querystring,
   };
 
   if (properties && Object.keys(properties).length > 0) {
     payload.properties = JSON.stringify(properties);
-  }
-
-  if (context?.userAgent) {
-    payload.user_agent = context.userAgent;
   }
 
   return payload;

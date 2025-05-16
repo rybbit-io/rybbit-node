@@ -13,9 +13,7 @@ export interface TrackProperties {
 }
 
 export interface EventContext {
-  ipAddress?: string;
-  userAgent?: string;
-  userId?: string | number;
+  userAgent?: string; // Used for User-Agent header, not payload body
   hostname?: string;
   pathname?: string;
   querystring?: string;
@@ -25,11 +23,7 @@ export interface TrackPayload {
   site_id: string | number;
   type: EventType;
   event_name: string;
-  timestamp: string;
   properties?: string;
-  ip_address?: string;
-  user_agent?: string;
-  user_id?: string | number;
   hostname?: string;
   pathname?: string;
   querystring?: string;
@@ -39,6 +33,7 @@ export interface RybbitAPI {
   track: (
     eventName: string,
     properties?: TrackProperties,
-    context?: EventContext
+    context?: EventContext,
+    eventType?: EventType
   ) => Promise<void>;
 }

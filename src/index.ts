@@ -49,7 +49,7 @@ export class Rybbit implements RybbitAPI {
     const payload = preparePayload(eventName, this.config, properties, context, eventType);
 
     try {
-      await sendTrackRequest(payload, this.config, this.logger);
+      await sendTrackRequest(payload, this.config, this.logger, context);
     } catch (error) {
       this.logger.error("Tracking request failed at the track method level.", error);
     }
