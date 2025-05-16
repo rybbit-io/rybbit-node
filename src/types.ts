@@ -1,6 +1,7 @@
 export interface RybbitConfig {
   analyticsHost: string;
   siteId: string | number;
+  defaultOriginHeader: string;
   debug?: boolean;
   requestTimeout?: number;
   defaultUserAgent?: string | null;
@@ -17,6 +18,7 @@ export interface EventContext {
   hostname?: string;
   pathname?: string;
   querystring?: string;
+  originHeaderValue?: string;
 }
 
 export interface TrackPayload {

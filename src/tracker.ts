@@ -16,6 +16,8 @@ export async function sendTrackRequest(
     "Content-Type": "application/json",
   });
 
+  headers.set("Origin", context?.originHeaderValue || config.defaultOriginHeader);
+
   if (config.defaultUserAgent) {
     if (!context?.userAgent && config.defaultUserAgent) {
       headers.set("User-Agent", config.defaultUserAgent);

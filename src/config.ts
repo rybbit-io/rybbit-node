@@ -25,6 +25,7 @@ export function validateAndProcessConfig(options: RybbitConfig): ValidatedRybbit
   return {
     analyticsHost: finalAnalyticsHost,
     siteId: finalSiteId,
+    defaultOriginHeader: options.defaultOriginHeader,
     debug: options.debug ?? false,
     requestTimeout: Math.max(0, options.requestTimeout ?? DEFAULT_REQUEST_TIMEOUT),
     defaultUserAgent: options.defaultUserAgent === undefined ? DEFAULT_USER_AGENT : options.defaultUserAgent,
