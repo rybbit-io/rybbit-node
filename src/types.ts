@@ -1,4 +1,4 @@
-export interface RybbitNodeConfig {
+export interface RybbitConfig {
   analyticsHost: string;
   siteId: string | number;
   debug?: boolean;
@@ -6,13 +6,13 @@ export interface RybbitNodeConfig {
   defaultUserAgent?: string | null;
 }
 
-export type ServerEventType = "server_event" | "custom_event" | string;
+export type EventType = "pageview" | "custom_event";
 
 export interface TrackProperties {
   [key: string]: any;
 }
 
-export interface ServerEventContext {
+export interface EventContext {
   ipAddress?: string;
   userAgent?: string;
   userId?: string | number;
@@ -21,9 +21,9 @@ export interface ServerEventContext {
   querystring?: string;
 }
 
-export interface ServerTrackPayload {
+export interface TrackPayload {
   site_id: string | number;
-  type: ServerEventType;
+  type: EventType;
   event_name: string;
   timestamp: string;
   properties?: string;
@@ -35,10 +35,10 @@ export interface ServerTrackPayload {
   querystring?: string;
 }
 
-export interface RybbitNodeAPI {
+export interface RybbitAPI {
   track: (
     eventName: string,
     properties?: TrackProperties,
-    context?: ServerEventContext
+    context?: EventContext
   ) => Promise<void>;
 }

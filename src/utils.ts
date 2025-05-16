@@ -2,11 +2,11 @@ export function getLogger(debugMode: boolean) {
   return {
     log: (...args: any[]): void => {
       if (debugMode) {
-        console.log("[RybbitNode]", ...args);
+        console.log("[Rybbit]", ...args);
       }
     },
     error: (...args: any[]): void => {
-      console.error("[RybbitNode Error]", ...args);
+      console.error("[Rybbit Error]", ...args);
     },
   };
 }

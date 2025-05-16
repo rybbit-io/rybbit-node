@@ -1,13 +1,13 @@
-import { RybbitNodeConfig } from "./types";
+import { RybbitConfig } from "./types";
 
-export interface ValidatedRybbitNodeConfig extends Required<Omit<RybbitNodeConfig, "defaultUserAgent">> {
+export interface ValidatedRybbitConfig extends Required<Omit<RybbitConfig, "defaultUserAgent">> {
   defaultUserAgent: string | null;
 }
 
 const DEFAULT_REQUEST_TIMEOUT = 5000;
 const DEFAULT_USER_AGENT = "Rybbit Node.js SDK";
 
-export function validateAndProcessConfig(options: RybbitNodeConfig): ValidatedRybbitNodeConfig {
+export function validateAndProcessConfig(options: RybbitConfig): ValidatedRybbitConfig {
   if (typeof options !== "object" || options === null) {
     throw new Error("Invalid configuration provided to Rybbit Node SDK. Expected an object.");
   }

@@ -1,12 +1,12 @@
-import { ServerTrackPayload, TrackProperties, ServerEventContext, ServerEventType } from "./types";
-import { ValidatedRybbitNodeConfig } from "./config";
+import { TrackPayload, TrackProperties, EventContext, EventType } from "./types";
+import { ValidatedRybbitConfig } from "./config";
 import { getLogger, getServerHostname } from "./utils";
 
 type Logger = ReturnType<typeof getLogger>;
 
 export async function sendTrackRequest(
-  payload: ServerTrackPayload,
-  config: ValidatedRybbitNodeConfig,
+  payload: TrackPayload,
+  config: ValidatedRybbitConfig,
   logger: Logger
 ): Promise<void> {
   const endpoint = `${config.analyticsHost}/track`;
@@ -45,14 +45,14 @@ export async function sendTrackRequest(
 
 export function preparePayload(
   eventName: string,
-  config: ValidatedRybbitNodeConfig,
+  config: ValidatedRybbitConfig,
   properties?: TrackProperties,
-  context?: ServerEventContext,
-  eventType: ServerEventType = "server_event"
-): ServerTrackPayload {
+  context?: EventContext,
+  eventType: EventType = "pageview"
+): TrackPayload {
   const now = new Date();
 
-  const payload: ServerTrackPayload = {
+  const payload: TrackPayload = {
     site_id: config.siteId,
     type: eventType,
     event_name: eventName,
