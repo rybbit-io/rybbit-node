@@ -1,30 +1,42 @@
-import { TrackPayload, TrackProperties, EventContext, EventType } from "./types";
+import {TrackPayload, TrackProperties, EventType, Payload} from "./types";
 import { ValidatedRybbitConfig } from "./config";
-import { getLogger, getServerHostname } from "./utils";
+import { getLogger } from "./utils";
 
 type Logger = ReturnType<typeof getLogger>;
 
 export async function sendTrackRequest(
-  payload: TrackPayload,
+  eventType: EventType,
   config: ValidatedRybbitConfig,
   logger: Logger,
-  context?: EventContext,
+  payload?: Payload,
+  eventData: {
+    eventName?: string;
+    properties?: TrackProperties;
+  } = {}
 ): Promise<void> {
+  const { eventName, properties = {} } = eventData;
+
+  if (eventType === "custom_event" && !eventName) {
+    throw new Error("Event name is required and must be a string for custom events.");
+  }
+
+  const trackPayload: TrackPayload = {
+    site_id: config.siteId,
+    type: eventType,
+    ...payload,
+    ...(eventType === "custom_event" && { event_name: eventName }),
+    ...((eventType === "custom_event") && Object.keys(properties).length > 0 && {
+      properties: JSON.stringify(properties),
+    }),
+  };
+
   const endpoint = `${config.analyticsHost}/track`;
-  const body = JSON.stringify(payload);
+  const body = JSON.stringify(trackPayload);
   const headers = new Headers({
     "Content-Type": "application/json",
   });
-
-  headers.set("Origin", context?.originHeaderValue || config.defaultOriginHeader);
-
-  if (config.defaultUserAgent) {
-    if (!context?.userAgent && config.defaultUserAgent) {
-      headers.set("User-Agent", config.defaultUserAgent);
-    } else if (context?.userAgent) {
-      headers.set("User-Agent", context.userAgent);
-    }
-  }
+  headers.set("Origin", config.originHeader);
+  headers.set("User-Agent", config.userAgent);
 
   logger.log("Sending track event to:", endpoint);
   logger.log("Payload:", payload);
@@ -34,6 +46,8 @@ export async function sendTrackRequest(
       method: "POST",
       headers: headers,
       body: body,
+      mode: "cors",
+      keepalive: true,
     });
     
     if (!response.ok) {
@@ -44,27 +58,4 @@ export async function sendTrackRequest(
   } catch (error) {
     logger.error("Failed to send event:", error);
   }
-}
-
-export function preparePayload(
-  eventName: string,
-  config: ValidatedRybbitConfig,
-  properties?: TrackProperties,
-  context?: EventContext,
-  eventType: EventType = "pageview"
-): TrackPayload {
-  const payload: TrackPayload = {
-    site_id: config.siteId,
-    type: eventType,
-    event_name: eventName,
-    hostname: context?.hostname || getServerHostname(),
-    pathname: context?.pathname,
-    querystring: context?.querystring,
-  };
-
-  if (properties && Object.keys(properties).length > 0) {
-    payload.properties = JSON.stringify(properties);
-  }
-
-  return payload;
 }

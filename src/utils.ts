@@ -10,12 +10,3 @@ export function getLogger(debugMode: boolean) {
     },
   };
 }
-
-export function getServerHostname(): string {
-  try {
-    const os = require("os");
-    return os.hostname();
-  } catch (e) {
-    return "unknown_server_host";
-  }
-}

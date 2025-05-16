@@ -1,8 +1,8 @@
 export interface RybbitConfig {
   analyticsHost: string;
   siteId: string | number;
-  defaultOriginHeader: string;
-  defaultUserAgent?: string | null;
+  originHeader: string;
+  userAgent?: string | null;
   debug?: boolean;
 }
 
@@ -12,29 +12,29 @@ export interface TrackProperties {
   [key: string]: any;
 }
 
-export interface EventContext {
-  userAgent?: string; // Used for User-Agent header, not payload body
+export interface Payload {
   hostname?: string;
   pathname?: string;
   querystring?: string;
-  originHeaderValue?: string;
+  screenWidth?: number;
+  screenHeight?: number;
+  language?: string;
+  page_title?: string;
+  referrer?: string;
 }
 
-export interface TrackPayload {
+export interface TrackPayload extends Payload {
   site_id: string | number;
   type: EventType;
-  event_name: string;
-  properties?: string;
-  hostname?: string;
-  pathname?: string;
-  querystring?: string;
+  event_name?: string; // Only for custom_event
+  properties?: string; // JSON stringified for custom_event
 }
 
 export interface RybbitAPI {
-  track: (
+  pageview: (payload: TrackPayload) => Promise<void>;
+  event: (
     eventName: string,
+    payload?: Payload,
     properties?: TrackProperties,
-    context?: EventContext,
-    eventType?: EventType
   ) => Promise<void>;
 }

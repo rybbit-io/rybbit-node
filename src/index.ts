@@ -1,6 +1,6 @@
-import { RybbitConfig, TrackProperties, RybbitAPI, EventContext, EventType } from "./types";
+import { RybbitConfig, TrackProperties, RybbitAPI, Payload } from "./types";
 import { ValidatedRybbitConfig, validateAndProcessConfig } from "./config";
-import { sendTrackRequest, preparePayload } from "./tracker";
+import { sendTrackRequest } from "./tracker";
 import { getLogger } from "./utils";
 
 /**
@@ -13,6 +13,7 @@ export class Rybbit implements RybbitAPI {
 
   /**
    * Initializes a new instance of the Rybbit Node.js SDK.
+   *
    * @param config - Configuration options.
    * @throws Error if the configuration is invalid.
    */
@@ -24,51 +25,38 @@ export class Rybbit implements RybbitAPI {
   }
 
   /**
-   * Tracks a server-side event.
+   * Tracks a pageview event.
    *
-   * @param eventName - The name of the event (e.g., "user_signup", "item_purchased").
-   * @param properties - Optional. An object containing additional data about the event.
-   * These properties will be JSON stringified.
-   * @param context - Optional. Contextual information for the event, such as IP address,
-   * User-Agent, or a specific user ID.
-   * @param eventType - Optional. The type of event, defaults to "pageview".
+   * @param payload - Optional. An object containing data about the pageview.
    * @returns A promise that resolves when the event has been processed and sent
    * (or an attempt has been made to send it). It does not guarantee delivery.
    */
-  public async track(
-    eventName: string,
-    properties?: TrackProperties,
-    context?: EventContext,
-    eventType: EventType = "pageview"
-  ): Promise<void> {
-    if (!eventName || eventName.trim() === "") {
-      this.logger.error("Event name is required and must be a non-empty string.");
-      return;
-    }
-
-    const payload = preparePayload(eventName, this.config, properties, context, eventType);
-
+  public async pageview(payload?: Payload): Promise<void> {
     try {
-      await sendTrackRequest(payload, this.config, this.logger, context);
+      await sendTrackRequest("pageview", this.config, this.logger, payload);
     } catch (error) {
-      this.logger.error("Tracking request failed at the track method level.", error);
+      this.logger.error("Tracking request failed at the pageview method level.", error);
     }
   }
 
   /**
-   * A convenience method to track a custom event, explicitly setting the type to "custom_event".
+   * Tracks a custom event.
    *
-   * @param eventName - The name of the custom event.
+   * @param eventName - The name of the event.
+   * @param payload - Optional. An object containing additional data about the event.
    * @param properties - Optional. An object containing additional data about the event.
-   * @param context - Optional. Contextual information for the event.
    * @returns A promise that resolves when the event has been processed and sent.
    */
   public async event(
     eventName: string,
+    payload?: Payload,
     properties?: TrackProperties,
-    context?: EventContext
   ): Promise<void> {
-    return this.track(eventName, properties, context, "custom_event");
+    try {
+      await sendTrackRequest("custom_event", this.config, this.logger, payload, { eventName, properties });
+    } catch (error) {
+      this.logger.error("Tracking request failed at the event method level.", error);
+    }
   }
 }
 
