@@ -2,9 +2,8 @@ export interface RybbitConfig {
   analyticsHost: string;
   siteId: string | number;
   defaultOriginHeader: string;
-  debug?: boolean;
-  requestTimeout?: number;
   defaultUserAgent?: string | null;
+  debug?: boolean;
 }
 
 export type EventType = "pageview" | "custom_event";

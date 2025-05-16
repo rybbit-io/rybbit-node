@@ -4,7 +4,6 @@ export interface ValidatedRybbitConfig extends Required<Omit<RybbitConfig, "defa
   defaultUserAgent: string | null;
 }
 
-const DEFAULT_REQUEST_TIMEOUT = 5000;
 const DEFAULT_USER_AGENT = "Rybbit Node.js SDK";
 
 export function validateAndProcessConfig(options: RybbitConfig): ValidatedRybbitConfig {
@@ -27,7 +26,6 @@ export function validateAndProcessConfig(options: RybbitConfig): ValidatedRybbit
     siteId: finalSiteId,
     defaultOriginHeader: options.defaultOriginHeader,
     debug: options.debug ?? false,
-    requestTimeout: Math.max(0, options.requestTimeout ?? DEFAULT_REQUEST_TIMEOUT),
     defaultUserAgent: options.defaultUserAgent === undefined ? DEFAULT_USER_AGENT : options.defaultUserAgent,
   };
 }
