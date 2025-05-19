@@ -22,7 +22,7 @@ export function validateAndProcessConfig(options: RybbitConfig): ValidatedRybbit
   const finalSiteId = String(options.siteId);
 
   if (!options.origin || options.origin.trim() === "") {
-    throw new Error("`originHeader` is required in Rybbit config and must be a non-empty string.");
+    throw new Error("`origin` is required in Rybbit config and must be a non-empty string.");
   }
 
   return {

@@ -1,4 +1,4 @@
-import {TrackPayload, TrackProperties, EventType, Payload} from "./types";
+import { TrackPayload, TrackProperties, EventType, Payload } from "./types";
 import { ValidatedRybbitConfig } from "./config";
 import { getLogger } from "./utils";
 
