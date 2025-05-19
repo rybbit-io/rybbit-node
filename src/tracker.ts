@@ -8,7 +8,7 @@ export async function sendTrackRequest(
   eventType: EventType,
   config: ValidatedRybbitConfig,
   logger: Logger,
-  payload?: Payload,
+  payload: Payload = {},
   eventData: {
     eventName?: string;
     properties?: TrackProperties;

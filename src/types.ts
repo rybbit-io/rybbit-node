@@ -32,9 +32,5 @@ export interface TrackPayload extends Payload {
 
 export interface RybbitAPI {
   pageview: (payload?: Payload) => Promise<void>;
-  event: (
-    eventName: string,
-    payload?: Payload,
-    properties?: TrackProperties,
-  ) => Promise<void>;
+  event: (eventName: string, payload?: Payload, properties?: TrackProperties) => Promise<void>;
 }
