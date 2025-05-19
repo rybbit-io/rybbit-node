@@ -34,7 +34,7 @@ export async function sendTrackRequest(
   const body = JSON.stringify(trackPayload);
   const headers = new Headers({
     "Content-Type": "application/json",
-    "Origin": config.originHeader,
+    "Origin": config.origin,
     "User-Agent": config.userAgent,
   });
 

@@ -1,7 +1,7 @@
 export interface RybbitConfig {
   analyticsHost: string;
   siteId: string | number;
-  originHeader: string;
+  origin: string;
   userAgent?: string | null;
   debug?: boolean;
 }
@@ -31,7 +31,7 @@ export interface TrackPayload extends Payload {
 }
 
 export interface RybbitAPI {
-  pageview: (payload: TrackPayload) => Promise<void>;
+  pageview: (payload?: Payload) => Promise<void>;
   event: (
     eventName: string,
     payload?: Payload,

@@ -21,14 +21,14 @@ export function validateAndProcessConfig(options: RybbitConfig): ValidatedRybbit
   }
   const finalSiteId = String(options.siteId);
 
-  if (!options.originHeader || options.originHeader.trim() === "") {
+  if (!options.origin || options.origin.trim() === "") {
     throw new Error("`originHeader` is required in Rybbit config and must be a non-empty string.");
   }
 
   return {
     analyticsHost: finalAnalyticsHost,
     siteId: finalSiteId,
-    originHeader: options.originHeader,
+    origin: options.origin,
     userAgent: options.userAgent || DEFAULT_USER_AGENT,
     debug: options.debug ?? false,
   };
