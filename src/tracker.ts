@@ -34,9 +34,9 @@ export async function sendTrackRequest(
   const body = JSON.stringify(trackPayload);
   const headers = new Headers({
     "Content-Type": "application/json",
+    "Origin": config.originHeader,
+    "User-Agent": config.userAgent,
   });
-  headers.set("Origin", config.originHeader);
-  headers.set("User-Agent", config.userAgent);
 
   logger.log("Sending track event to:", endpoint);
   logger.log("Payload:", payload);
@@ -46,8 +46,6 @@ export async function sendTrackRequest(
       method: "POST",
       headers: headers,
       body: body,
-      mode: "cors",
-      keepalive: true,
     });
     
     if (!response.ok) {

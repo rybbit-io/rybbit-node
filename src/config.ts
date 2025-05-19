@@ -4,7 +4,7 @@ export interface ValidatedRybbitConfig extends Required<Omit<RybbitConfig, "user
   userAgent: string;
 }
 
-const DEFAULT_USER_AGENT = "Rybbit Node.js SDK";
+const DEFAULT_USER_AGENT = `RybbitNode/${process.env.SDK_VERSION}`;
 
 export function validateAndProcessConfig(options: RybbitConfig): ValidatedRybbitConfig {
   if (typeof options !== "object" || options === null) {
