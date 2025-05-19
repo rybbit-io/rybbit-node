@@ -1,12 +1,11 @@
-import { TrackPayload, TrackProperties, EventType, Payload } from "./types";
-import { ValidatedRybbitConfig } from "./config";
+import { TrackPayload, TrackProperties, EventType, Payload, RybbitConfig } from "./types";
 import { getLogger } from "./utils";
 
 type Logger = ReturnType<typeof getLogger>;
 
 export async function sendTrackRequest(
   eventType: EventType,
-  config: ValidatedRybbitConfig,
+  config: RybbitConfig,
   logger: Logger,
   payload: Payload = {},
   eventData: {
@@ -35,7 +34,7 @@ export async function sendTrackRequest(
   const headers = new Headers({
     "Content-Type": "application/json",
     "Origin": config.origin,
-    "User-Agent": config.userAgent,
+    "User-Agent": config.userAgent || "",
   });
 
   logger.log("Sending track event to:", endpoint);
@@ -47,11 +46,11 @@ export async function sendTrackRequest(
       headers: headers,
       body: body,
     });
-    
+
     if (!response.ok) {
       logger.error(`Error sending event: ${response.status} ${response.statusText}`, await response.text().catch(() => ""));
     } else {
-      logger.log("Event sent successfully.");
+      logger.log(await response.text());
     }
   } catch (error) {
     logger.error("Failed to send event:", error);

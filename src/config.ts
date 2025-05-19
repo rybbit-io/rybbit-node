@@ -1,12 +1,6 @@
 import { RybbitConfig } from "./types";
 
-export interface ValidatedRybbitConfig extends Required<Omit<RybbitConfig, "userAgent">> {
-  userAgent: string;
-}
-
-const DEFAULT_USER_AGENT = `RybbitNode/${process.env.SDK_VERSION}`;
-
-export function validateAndProcessConfig(options: RybbitConfig): ValidatedRybbitConfig {
+export function validateAndProcessConfig(options: RybbitConfig): RybbitConfig {
   if (typeof options !== "object" || options === null) {
     throw new Error("Invalid configuration. Expected an object.");
   }
@@ -29,7 +23,7 @@ export function validateAndProcessConfig(options: RybbitConfig): ValidatedRybbit
     analyticsHost: finalAnalyticsHost,
     siteId: finalSiteId,
     origin: options.origin,
-    userAgent: options.userAgent || DEFAULT_USER_AGENT,
-    debug: options.debug ?? false,
+    userAgent: options.userAgent,
+    debug: options.debug,
   };
 }

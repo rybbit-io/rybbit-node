@@ -1,10 +1,10 @@
 import { RybbitConfig, TrackProperties, RybbitAPI, Payload } from "./types";
-import { ValidatedRybbitConfig, validateAndProcessConfig } from "./config";
+import { validateAndProcessConfig } from "./config";
 import { sendTrackRequest } from "./tracker";
 import { getLogger } from "./utils";
 
 export class Rybbit implements RybbitAPI {
-  private readonly config: ValidatedRybbitConfig;
+  private readonly config: RybbitConfig;
   private readonly logger: ReturnType<typeof getLogger>;
 
   /**
@@ -13,7 +13,7 @@ export class Rybbit implements RybbitAPI {
    */
   constructor(config: RybbitConfig) {
     this.config = validateAndProcessConfig(config);
-    this.logger = getLogger(this.config.debug);
+    this.logger = getLogger(this.config.debug ?? false);
     this.logger.log("Rybbit Node.js SDK Initialized.");
     this.logger.log("Config:", this.config);
   }
