@@ -15,14 +15,14 @@ export function validateAndProcessConfig(options: RybbitConfig): RybbitConfig {
   }
   const finalSiteId = String(options.siteId);
 
-  if (!options.origin || options.origin.trim() === "") {
-    throw new Error("`origin` is required in Rybbit config and must be a non-empty string.");
+  if (!options.apiKey || options.apiKey.trim() === "") {
+    throw new Error("`apiKey` is required in Rybbit config and must be a non-empty string.");
   }
 
   return {
     analyticsHost: finalAnalyticsHost,
     siteId: finalSiteId,
-    origin: options.origin,
+    apiKey: options.apiKey,
     userAgent: options.userAgent,
     debug: options.debug,
   };

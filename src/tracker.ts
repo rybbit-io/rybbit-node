@@ -33,7 +33,7 @@ export async function sendTrackRequest(
   const body = JSON.stringify(trackPayload);
   const headers = new Headers({
     "Content-Type": "application/json",
-    "Origin": config.origin,
+    "X-Api-Key": config.apiKey,
     "User-Agent": config.userAgent || "",
   });
 
