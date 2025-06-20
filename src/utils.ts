@@ -6,7 +6,9 @@ export function getLogger(debugMode: boolean) {
       }
     },
     error: (...args: any[]): void => {
-      console.error("[Rybbit Error]", ...args);
+      if (debugMode) {
+        console.error("[Rybbit Error]", ...args);
+      }
     },
   };
 }
