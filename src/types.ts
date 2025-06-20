@@ -1,6 +1,6 @@
 export interface RybbitConfig {
   analyticsHost: string;
-  siteId: string | number;
+  siteId: string;
   apiKey: string;
   userAgent?: string;
   ipAddress?: string;
@@ -28,7 +28,7 @@ export interface Payload {
 }
 
 export interface TrackPayload extends Payload {
-  site_id: string | number;
+  site_id: string;
   type: EventType;
   api_key: string;
   event_name?: string; // Only for custom_event
