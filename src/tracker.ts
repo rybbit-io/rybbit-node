@@ -22,6 +22,7 @@ export async function sendTrackRequest(
   const trackPayload: TrackPayload = {
     site_id: config.siteId,
     type: eventType,
+    api_key: config.apiKey,
     ...payload,
     ...(eventType === "custom_event" && { event_name: eventName }),
     ...((eventType === "custom_event") && Object.keys(properties).length > 0 && {
@@ -29,16 +30,18 @@ export async function sendTrackRequest(
     }),
   };
 
+  if (config.userAgent && !trackPayload.user_agent) {
+    trackPayload.user_agent = config.userAgent;
+  }
+
   const endpoint = `${config.analyticsHost}/track`;
   const body = JSON.stringify(trackPayload);
   const headers = new Headers({
     "Content-Type": "application/json",
-    "X-Api-Key": config.apiKey,
-    "User-Agent": config.userAgent || "",
   });
 
   logger.log("Sending track event to:", endpoint);
-  logger.log("Payload:", payload);
+  logger.log("Payload:", trackPayload);
 
   try {
     const response = await fetch(endpoint, {

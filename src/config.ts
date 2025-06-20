@@ -24,6 +24,7 @@ export function validateAndProcessConfig(options: RybbitConfig): RybbitConfig {
     siteId: finalSiteId,
     apiKey: options.apiKey,
     userAgent: options.userAgent,
+    ipAddress: options.ipAddress,
     debug: options.debug,
   };
 }
