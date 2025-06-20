@@ -30,10 +30,6 @@ export async function sendTrackRequest(
     }),
   };
 
-  if (config.userAgent && !trackPayload.user_agent) {
-    trackPayload.user_agent = config.userAgent;
-  }
-
   const endpoint = `${config.analyticsHost}/track`;
   const body = JSON.stringify(trackPayload);
   const headers = new Headers({

@@ -2,8 +2,6 @@ export interface RybbitConfig {
   analyticsHost: string;
   siteId: string;
   apiKey: string;
-  userAgent?: string;
-  ipAddress?: string;
   debug?: boolean;
 }
 
