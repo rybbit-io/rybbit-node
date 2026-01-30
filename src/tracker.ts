@@ -22,7 +22,6 @@ export async function sendTrackRequest(
   const trackPayload: TrackPayload = {
     site_id: config.siteId,
     type: eventType,
-    api_key: config.apiKey,
     ...payload,
     ...(eventType === "custom_event" && { event_name: eventName }),
     ...((eventType === "custom_event") && Object.keys(properties).length > 0 && {
@@ -34,6 +33,7 @@ export async function sendTrackRequest(
   const body = JSON.stringify(trackPayload);
   const headers = new Headers({
     "Content-Type": "application/json",
+    "Authorization": `Bearer ${config.apiKey}`,
   });
 
   logger.log("Sending track event to:", endpoint);

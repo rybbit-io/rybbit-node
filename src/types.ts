@@ -30,7 +30,6 @@ export interface Payload {
 export interface TrackPayload extends Payload {
   site_id: string;
   type: EventType;
-  api_key: string;
   event_name?: string; // Only for custom_event
   properties?: string; // JSON stringified for custom_event
 }
