@@ -3,6 +3,7 @@ export interface RybbitConfig {
   siteId: string;
   apiKey: string;
   debug?: boolean;
+  tag?: string;
 }
 
 export type EventType = "pageview" | "custom_event";
@@ -33,6 +34,7 @@ export interface TrackPayload extends Payload {
   api_key: string;
   event_name?: string; // Only for custom_event
   properties?: string; // JSON stringified for custom_event
+  tag?: string;
 }
 
 export interface RybbitAPI {

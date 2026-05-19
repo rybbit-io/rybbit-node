@@ -19,10 +19,16 @@ export function validateAndProcessConfig(options: RybbitConfig): RybbitConfig {
     throw new Error("`apiKey` is required in Rybbit config and must be a non-empty string.");
   }
 
+  const tag = options.tag?.trim() || undefined;
+  if (tag !== undefined && tag.length > 256) {
+    throw new Error("`tag` must be 256 characters or fewer.");
+  }
+
   return {
     analyticsHost: finalAnalyticsHost,
     siteId: finalSiteId,
     apiKey: options.apiKey,
     debug: options.debug,
+    tag,
   };
 }

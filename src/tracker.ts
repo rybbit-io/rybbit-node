@@ -28,6 +28,7 @@ export async function sendTrackRequest(
     ...((eventType === "custom_event") && Object.keys(properties).length > 0 && {
       properties: JSON.stringify(properties),
     }),
+    ...(config.tag && { tag: config.tag }),
   };
 
   const endpoint = `${config.analyticsHost}/track`;
