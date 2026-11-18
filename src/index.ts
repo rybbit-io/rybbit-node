@@ -15,7 +15,7 @@ export class Rybbit implements RybbitAPI {
     this.config = validateAndProcessConfig(config);
     this.logger = getLogger(this.config.debug ?? false);
     this.logger.log("Rybbit Node.js SDK Initialized.");
-    this.logger.log("Config:", this.config);
+    this.logger.log("Config:", { ...this.config, apiKey: "[redacted]" });
   }
 
   /**

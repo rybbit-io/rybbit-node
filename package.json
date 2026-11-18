@@ -1,6 +1,6 @@
 {
   "name": "@rybbit/node",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Rybbit Node.js SDK",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -15,7 +15,8 @@
   ],
   "scripts": {
     "build": "tsup",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "tsup && node --test test/tracker.test.mjs"
   },
   "repository": {
     "type": "git",

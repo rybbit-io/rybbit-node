@@ -2,7 +2,7 @@
 
 The official Node.js SDK for [Rybbit](https://github.com/rybbit-io/rybbit).
 
-For usage instructions, see the [docs](https://www.rybbit.io/docs/sdks/node).
+For usage instructions, see the [docs](https://rybbit.com/docs/sdks/node).
 
 ## Installation
 

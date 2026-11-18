@@ -22,7 +22,6 @@ export async function sendTrackRequest(
   const trackPayload: TrackPayload = {
     site_id: config.siteId,
     type: eventType,
-    api_key: config.apiKey,
     ...payload,
     ...(eventType === "custom_event" && { event_name: eventName }),
     ...((eventType === "custom_event") && Object.keys(properties).length > 0 && {
@@ -32,8 +31,11 @@ export async function sendTrackRequest(
 
   const endpoint = `${config.analyticsHost}/track`;
   const body = JSON.stringify(trackPayload);
+  // The key goes in the Authorization header. The server rejects unknown body
+  // fields, so an `api_key` in the JSON makes every event fail with a 400.
   const headers = new Headers({
     "Content-Type": "application/json",
+    Authorization: `Bearer ${config.apiKey}`,
   });
 
   logger.log("Sending track event to:", endpoint);
